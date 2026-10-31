@@ -67,7 +67,15 @@ class NowPlaying
                 }
                 while (true) {
                     delay(REPEAT_MS)
-                    if (current().state == LiveMessage.PLAYING) publish(force = true)
+
+                    val state =
+                        withContext(Dispatchers.Main.immediate) {
+                            current().state
+                        }
+
+                    if (state == LiveMessage.PLAYING) {
+                        publish(force = true)
+                    }
                 }
             }
 
